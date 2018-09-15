@@ -36,6 +36,10 @@ import com.google.android.gms.tasks.Task;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import android.database.sqlite.SQLiteDatabase;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import java.util.ArrayList;
 
 public class LocationActivity extends AppCompatActivity {
     // Fused Location Provider API.
@@ -58,10 +62,29 @@ public class LocationActivity extends AppCompatActivity {
     private TextView textView;
     private String textLog;
 
+    private SQLiteDatabase db;
+    private ArrayList<AdapterItem> dbitems;
+    ArrayAdapter<String> adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //TODO SQLite start
+        DBHelper dbHelper = new DBHelper(this);
+        db = dbHelper.getWritableDatabase();
+
+            /*
+            try{
+                dbitems = DBUtil.readDB(dbitems, db);
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+            */
+
+        setList();
+        //TODO SQLite end
 
         fusedLocationClient =
                 LocationServices.getFusedLocationProviderClient(this);
@@ -138,24 +161,32 @@ public class LocationActivity extends AppCompatActivity {
             textLog += strBuf;
             textView.setText(textLog);
 
-
-            //TODO test
-            ListView lv = (ListView)findViewById(R.id.listItems);
-            ArrayList<String> arrayList = new ArrayList<>();
-
-            for (int i = 0; i < 10; i++){
-                arrayList.add("nishida \nnishida \nnishida");
-            }
-
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                    LocationActivity.this,
-                    android.R.layout.simple_list_item_1,
-                    arrayList);
-            lv.setAdapter(adapter);
-
             stopLocationUpdates();
         }
 
+    }
+
+    //TODO SQLite to ViewList
+    private void setList() {
+        ListView lv = (ListView)findViewById(R.id.listItems);
+        ArrayList<String> arrayList = new ArrayList<>();
+
+        /*
+        for (int i = 0; i < dbitems.size(); i++){
+            AdapterItem item = dbitems.get(i);
+            arrayList.add(item.text);
+        }
+        */
+
+        for (int i = 0; i < 10; i++){
+            arrayList.add("test\ntest\ntest");
+        }
+
+        adapter = new ArrayAdapter<>(
+                LocationActivity.this,
+                android.R.layout.simple_list_item_1,
+                arrayList);
+        lv.setAdapter(adapter);
     }
 
     private void createLocationRequest() {
