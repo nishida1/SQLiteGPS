@@ -155,7 +155,7 @@ public class LocationActivity extends AppCompatActivity {
 
             strBuf.append("経　度　 :　 ");
             strBuf.append(longitude);
-            strBuf.append("\n");
+            //strBuf.append("\n");
 
             textLog = "";
             textLog += strBuf;
