@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">あ</string>
+    <string name="app_name">あ SQLiteGPS</string>
+    <string name="locate">位置情報の更新</string>
+    <string name="save">保存</string>
 </resources>
