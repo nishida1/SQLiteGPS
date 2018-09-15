@@ -13,7 +13,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.gms.common.api.ApiException;
@@ -32,6 +34,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class LocationActivity extends AppCompatActivity {
@@ -86,7 +89,7 @@ public class LocationActivity extends AppCompatActivity {
             }
         });
 
-        //(ToDo)
+        //TODO: 保存ボタン
         // 測位終了
         Button buttonStop = (Button) findViewById(R.id.button_save);
         buttonStop.setOnClickListener(new View.OnClickListener() {
@@ -134,6 +137,22 @@ public class LocationActivity extends AppCompatActivity {
             textLog = "";
             textLog += strBuf;
             textView.setText(textLog);
+
+
+            //TODO test
+            ListView lv = (ListView)findViewById(R.id.listItems);
+            ArrayList<String> arrayList = new ArrayList<>();
+
+            for (int i = 0; i < 10; i++){
+                arrayList.add("nishida \nnishida \nnishida");
+            }
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                    LocationActivity.this,
+                    android.R.layout.simple_list_item_1,
+                    arrayList);
+            lv.setAdapter(adapter);
+
             stopLocationUpdates();
         }
 
