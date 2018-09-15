@@ -10,12 +10,16 @@ import java.util.ArrayList;
 public class DBUtil {
 
     //TODO: TB
-    public static void writeDB(String info, SQLiteDatabase db) throws Exception {
+    public static void writeDB(String lastdate, String latitude, String longitude, String reserved, SQLiteDatabase db) throws Exception {
+
+        Log.v("sqltest", lastdate);
+        Log.v("sqltest", latitude);
+
         ContentValues values = new ContentValues();
-        values.put("lastdate", info);
-        values.put("latitude", info);
-        values.put("longitude", info);
-        values.put("reserved", info);
+        values.put("lastdate", lastdate);
+        values.put("latitude", latitude);
+        values.put("longitude", longitude);
+        values.put("reserved", reserved);
         db.insert(Common.DB_TABLE, null, values);
     }
 
@@ -30,6 +34,9 @@ public class DBUtil {
                 AdapterItem item = new AdapterItem();
                 item.id = Integer.toString(c.getInt(0));
                 item.lastdate = c.getString(1);
+                item.latitude = c.getString(2);
+                item.longitude = c.getString(3);
+                item.reserved = c.getString(4);
                 dbitems.add(item);
             } while (c.moveToNext());
         }

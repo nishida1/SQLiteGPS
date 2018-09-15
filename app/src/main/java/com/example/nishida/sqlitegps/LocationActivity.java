@@ -110,15 +110,17 @@ public class LocationActivity extends AppCompatActivity {
             }
         });
 
-        //TODO: 保存ボタン
-        // 測位終了
-        Button buttonStop = (Button) findViewById(R.id.button_save);
-        buttonStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                stopLocationUpdates();
-            }
-        });
+    }
+
+    //保存ボタン
+    public void onClickWrite(View v) {
+        try {
+            DBUtil.writeDB(lastUpdateTime, latitude, longitude, "", db);
+            dbitems = DBUtil.readDB(dbitems, db);
+            setList();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // locationのコールバックを受け取る
@@ -172,10 +174,10 @@ public class LocationActivity extends AppCompatActivity {
         if (dbitems != null) {
             for (int i = 0; i < dbitems.size(); i++){
                 AdapterItem item = dbitems.get(i);
-                arrayList.add(item.lastdate);
+                arrayList.add("測位日時：　"+item.lastdate+"\n緯　度　：　"+item.latitude+"\n経　度　：　"+item.longitude);
             }
         }
-        
+
         /*
         for (int i = 0; i < 10; i++){
             arrayList.add("test\ntest\ntest");

@@ -9,6 +9,7 @@
 
     <TextView
         android:id="@+id/text_view"
+        android:textSize="16sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
@@ -25,21 +26,22 @@
             style="@style/Widget.AppCompat.Button.Colored"
             android:id="@+id/button_locate"
             android:text="@string/locate"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:layout_margin="10dp"
             android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <Button
-            style="@style/Widget.AppCompat.Button.Colored"
             android:id="@+id/button_save"
-            android:text="@string/save"
-            android:textSize="12sp"
+            style="@style/Widget.AppCompat.Button.Colored"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:onClick="onClickWrite"
+            android:text="@string/save"
+            android:textSize="14sp" />
 
     </LinearLayout>
 
