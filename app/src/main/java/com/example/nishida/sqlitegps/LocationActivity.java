@@ -34,7 +34,6 @@ import com.google.android.gms.tasks.Task;
 import java.text.DateFormat;
 import java.util.Date;
 
-//(ToDo)
 public class LocationActivity extends AppCompatActivity {
     // Fused Location Provider API.
     private FusedLocationProviderClient fusedLocationClient;
@@ -47,6 +46,9 @@ public class LocationActivity extends AppCompatActivity {
     private Location location;
 
     private String lastUpdateTime;
+    private String latitude; //緯度
+    private String longitude; //経度
+
     private Boolean requestingLocationUpdates;
     private static final int REQUEST_CHECK_SETTINGS = 0x1;
     private int priority = 0;
@@ -69,13 +71,13 @@ public class LocationActivity extends AppCompatActivity {
         buildLocationSettingsRequest();
 
         textView = (TextView) findViewById(R.id.text_view);
-        //textLog = "onCreate()\n";
+        textLog = "位置情報取得中...";
         textView.setText(textLog);
 
-        //起動時に測位
+        // 起動時に測位
         startLocationUpdates();
 
-        // 測位開始
+        // 「位置情報の更新」ボタン
         Button buttonStart = (Button) findViewById(R.id.button_locate);
         buttonStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +95,6 @@ public class LocationActivity extends AppCompatActivity {
                 stopLocationUpdates();
             }
         });
-
     }
 
     // locationのコールバックを受け取る
@@ -102,9 +103,7 @@ public class LocationActivity extends AppCompatActivity {
             @Override
             public void onLocationResult(LocationResult locationResult) {
                 super.onLocationResult(locationResult);
-
                 location = locationResult.getLastLocation();
-
                 lastUpdateTime = DateFormat.getDateTimeInstance().format(new Date());
                 updateLocationUI();
             }
@@ -115,37 +114,27 @@ public class LocationActivity extends AppCompatActivity {
         // getLastLocation()からの情報がある場合のみ
         if (location != null) {
 
-            String fusedName[] = {
-                    "Latitude(緯度)", "Longitude(経度)", "Accuracy",
-                    "Altitude", "Speed", "Bearing"
-            };
+            latitude = Double.toString(location.getLatitude());
+            longitude = Double.toString(location.getLongitude());
 
-            double fusedData[] = {
-                    location.getLatitude(),
-                    location.getLongitude(),
-                    location.getAccuracy(),
-                    location.getAltitude(),
-                    location.getSpeed(),
-                    location.getBearing()
-            };
+            StringBuilder strBuf = new StringBuilder();
 
-            StringBuilder strBuf =
-                    new StringBuilder("---------- UpdateLocation ---------- \n");
-
-            for(int i=0; i< fusedName.length; i++) {
-                strBuf.append(fusedName[i]);
-                strBuf.append(" = ");
-                strBuf.append(String.valueOf(fusedData[i]));
-                strBuf.append("\n");
-            }
-
-            strBuf.append("Time(測位日時)");
-            strBuf.append(" = ");
+            strBuf.append("測位日時 :　 ");
             strBuf.append(lastUpdateTime);
             strBuf.append("\n");
 
+            strBuf.append("緯　度　 :　 ");
+            strBuf.append(latitude);
+            strBuf.append("\n");
+
+            strBuf.append("経　度　 :　 ");
+            strBuf.append(longitude);
+            strBuf.append("\n");
+
+            textLog = "";
             textLog += strBuf;
             textView.setText(textLog);
+            stopLocationUpdates();
         }
 
     }
@@ -295,14 +284,12 @@ public class LocationActivity extends AppCompatActivity {
     }
 
     private void stopLocationUpdates() {
-        textLog += "onStop()\n";
+        //textLog += "onStop()\n";
         textView.setText(textLog);
 
         if (!requestingLocationUpdates) {
             Log.d("debug", "stopLocationUpdates: " +
                     "updates never requested, no-op.");
-
-
             return;
         }
 
