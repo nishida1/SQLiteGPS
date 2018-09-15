@@ -71,20 +71,18 @@ public class LocationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //TODO SQLite start
+        //SQLite start
         DBHelper dbHelper = new DBHelper(this);
         db = dbHelper.getWritableDatabase();
 
-            /*
-            try{
-                dbitems = DBUtil.readDB(dbitems, db);
-            } catch (Exception e){
-                e.printStackTrace();
-            }
-            */
+        try{
+            dbitems = DBUtil.readDB(dbitems, db);
+        } catch (Exception e){
+            e.printStackTrace();
+        }
 
         setList();
-        //TODO SQLite end
+        //SQLite end
 
         fusedLocationClient =
                 LocationServices.getFusedLocationProviderClient(this);
@@ -171,16 +169,18 @@ public class LocationActivity extends AppCompatActivity {
         ListView lv = (ListView)findViewById(R.id.listItems);
         ArrayList<String> arrayList = new ArrayList<>();
 
-        /*
-        for (int i = 0; i < dbitems.size(); i++){
-            AdapterItem item = dbitems.get(i);
-            arrayList.add(item.text);
+        if (dbitems != null) {
+            for (int i = 0; i < dbitems.size(); i++){
+                AdapterItem item = dbitems.get(i);
+                arrayList.add(item.lastdate);
+            }
         }
-        */
-
+        
+        /*
         for (int i = 0; i < 10; i++){
             arrayList.add("test\ntest\ntest");
         }
+        */
 
         adapter = new ArrayAdapter<>(
                 LocationActivity.this,
