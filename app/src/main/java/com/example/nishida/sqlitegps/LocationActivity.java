@@ -110,10 +110,19 @@ public class LocationActivity extends AppCompatActivity {
             }
         });
 
+        // 「保存」ボタン
+        Button buttonSave = (Button) findViewById(R.id.button_save);
+        buttonSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onClickWrite();
+            }
+        });
+
     }
 
-    //保存ボタン
-    public void onClickWrite(View v) {
+    // 「保存」ボタン
+    public void onClickWrite() {
         try {
             DBUtil.writeDB(lastUpdateTime, latitude, longitude, "", db);
             dbitems = DBUtil.readDB(dbitems, db);
